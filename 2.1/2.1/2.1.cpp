@@ -1,6 +1,10 @@
 ﻿#include "pch.h"
 #include <iostream>
 
+#define ADD(a,b)((a)+(b))
+
+using namespace std;
+
 int TestFunc(int = 20);
 int TestFunc(int nParam) {
 	return nParam;
@@ -33,6 +37,33 @@ T TestFunc3(T a, T b) {
 	return a + b;
 }
 
+inline int AddNew(int a, int b) {
+	
+	return a + b;
+}
+
+namespace TEST {
+	int g_nData = 100;
+
+	void TestFunc4(void) {
+		std::cout << "TEST::TestFunc4()" << std::endl;
+	}
+
+	int TestFunc(void) {
+		return 30;
+	}
+}
+
+namespace TEST2 {
+	int g_nData = 100;
+	namespace DEV {
+		int g_nData = 200;
+		namespace WIN {
+			int g_nData = 300;
+		}
+	}
+}
+
 int main()
 {
 	//디폴트 매개변수
@@ -56,6 +87,24 @@ int main()
 	//템플릿
 	std::cout << TestFunc3<int>(3, 4) << std::endl;
 	std::cout << TestFunc3<double>(3.3, 4.4) << std::endl;
+
+	//인라인 함수(매크로+함수)
+	std::cout << ADD(1, 2) << std::endl;	//매크로
+	std::cout << AddNew(2, 3) << std::endl;	//인라인(컴파일러 차이)
+
+	//네임스페이스
+	TEST::TestFunc4();
+	std::cout << TEST::g_nData << std::endl;	//namespace내 변수 및 함수 사용
+
+	cout << "using namespace" << endl;	//using 사용
+
+	cout << TEST2::g_nData << endl;	//namespace 중첩
+	cout << TEST2::DEV::g_nData << endl;
+	cout << TEST2::DEV::WIN::g_nData << endl;
+
+	cout << TestFunc() << endl;	//묵시적 전역
+	cout << ::TestFunc() << endl; //명시적 전역
+	cout << TEST::TestFunc() << endl;
 
 
 	return 0;
