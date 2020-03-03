@@ -3,15 +3,17 @@
 #include <string>
 using namespace std;
 
-class USERDATA {
-public:
-	int nAge;
-	char szName[32];
+namespace TEST {
+	class USERDATA {
+	public:
+		int nAge;
+		char szName[32];
+		void Pirnt(void) {
+			cout << this->nAge << ' ' << this->szName << endl;
+		}
+	};
+}
 
-	void Pirnt(void) {
-		cout << this->nAge << ' ' << this->szName << endl;
-	}
-};
 
 class USERDATA2 {
 public:
@@ -78,10 +80,15 @@ private:
 	int m_y = 0;
 };
 
+class USERDATA6 {
+public:
+	USERDATA6(void) = default;
+	int m_nData = 5;
+};
 int main()
 {
 	//structure 형식으로 사용한 class
-	USERDATA user = { 10, "철수" };
+	TEST::USERDATA user = { 10, "철수" };
 	user.Pirnt();
 
 	//생성자 함수 사용한 class 및 함수 정의 분리
@@ -110,7 +117,17 @@ int main()
 	cout << t3.GetData() << endl;
 
 	//생성자 위임
-	USERDATA5 t
+	USERDATA5 t4(110);
+	t4.Print();
+
+	USERDATA5 t5(50, 250);
+	t5.Print();
+
+	//명시적 디폴트 생성자
+	USERDATA6 t6;
+	cout << t6.m_nData << endl;
+
+	//메소드(this, 
 
 	return 0;
 }
