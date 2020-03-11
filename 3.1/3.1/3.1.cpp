@@ -1,7 +1,7 @@
 ﻿#include "pch.h"
 #include <iostream>
 #include <string>
-using namespace std;
+#include "MyString.h"
 
 namespace TEST {
 	class USERDATA {
@@ -85,6 +85,44 @@ public:
 	USERDATA6(void) = default;
 	int m_nData = 5;
 };
+
+class USERDATA7 {
+public:
+	USERDATA7(int nParam) : m_nData(nParam) {
+
+	}
+	USERDATA7() {}
+
+	int Getdata() const {
+		//Setdata(100);
+		m_nData2 = 100;
+		return m_nData;
+	}
+
+	void Setdata(int nParam) {
+		this->m_nData = nParam;
+	}
+
+	void Setdata(double nParam) = delete;
+
+	int TestFunc(const int &nParam) {
+		int &nNewParam = const_cast<int &>(nParam);
+		nNewParam = 100;
+	}
+
+	static int GetCount() {
+		return ++m_nCount;
+	}
+
+private:
+	int m_nData = 0;
+	mutable int m_nData2 = 0;
+
+	static int m_nCount;
+};
+
+int USERDATA7::m_nCount = 0;
+
 int main()
 {
 	//structure 형식으로 사용한 class
@@ -127,7 +165,19 @@ int main()
 	USERDATA6 t6;
 	cout << t6.m_nData << endl;
 
-	//메소드(this, 
+	//실습1
+	CMyString strData;
+	strData.SetString("Hello");
+	cout << strData.GetString() << endl;
+
+	//상수형 메소드
+	USERDATA7 t7(10);
+	cout << t7.Getdata() << endl;
+		//t7.Setdata(10.5);
+
+	//정적 멤버
+	cout << t7.GetCount() << endl;
+	cout << USERDATA7::GetCount() << endl;
 
 	return 0;
 }
